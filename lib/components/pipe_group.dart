@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:flame/components.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_test/components/pipe.dart';
+import 'package:flame_test/game/assets.dart';
 import 'package:flame_test/game/configuration.dart';
 import 'package:flame_test/game/flappy_bird_game.dart';
 import 'package:flame_test/game/pipe_position.dart';
@@ -11,6 +13,7 @@ class PipeGroup extends PositionComponent with HasGameRef<FlappyBirdGame> {
   PipeGroup();
 
   final _random = Random();
+  bool didScore = false;
 
   @override
   Future<void> onLoad() async {
@@ -33,6 +36,11 @@ class PipeGroup extends PositionComponent with HasGameRef<FlappyBirdGame> {
     super.update(dt);
     position.x -= Config.gameSpeed * dt;
 
+    if (position.x < 0 && !didScore) {
+      updateScore();
+      debugPrint('Player scored');
+    }
+
     if (position.x < -50) {
       removeFromParent();
       debugPrint('Pipe removed');
@@ -42,5 +50,11 @@ class PipeGroup extends PositionComponent with HasGameRef<FlappyBirdGame> {
       removeFromParent();
       game.isHit = false;
     }
+  }
+
+  void updateScore() {
+    didScore = true;
+    FlameAudio.play(Assets.pointSFX);
+    gameRef.bird.score++;
   }
 }
