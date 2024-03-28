@@ -13,6 +13,7 @@ class Bird extends SpriteGroupComponent<BirdMovement>
   Bird();
 
   int score = 0;
+  bool isFlying = false;
 
   @override
   Future<void> onLoad() async {
@@ -33,7 +34,7 @@ class Bird extends SpriteGroupComponent<BirdMovement>
   }
 
   void fly() {
-    // ajouter un bool qui devient false dans le onComplete() pour if (condition = false) {current = BirdMovement.down}
+    isFlying = true;
     FlameAudio.play(Assets.flyingSFX);
     add(
       MoveByEffect(
@@ -42,10 +43,9 @@ class Bird extends SpriteGroupComponent<BirdMovement>
           duration: 0.2,
           curve: Curves.decelerate,
         ),
-        onComplete: () => current = BirdMovement.down,
+        onComplete: () => isFlying = false,
       ),
     );
-    current = BirdMovement.up;
   }
 
   @override
@@ -75,6 +75,11 @@ class Bird extends SpriteGroupComponent<BirdMovement>
     if (position.y < 1) {
       FlameAudio.play(Assets.collisionSFX);
       gameOver();
+    }
+    if (isFlying) {
+      current = BirdMovement.up;
+    } else {
+      current = BirdMovement.down;
     }
   }
 }
