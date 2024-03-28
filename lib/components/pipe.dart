@@ -1,3 +1,4 @@
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame_test/game/assets.dart';
@@ -16,6 +17,7 @@ class Pipe extends SpriteComponent with HasGameRef<FlappyBirdGame> {
   final double height;
   final PipePosition pipePosition;
 
+  @override
   Future<void> onLoad() async {
     final pipe = await Flame.images.load(Assets.pipe);
     final pipeRotated = await Flame.images.load(Assets.pipeRotated);
@@ -32,5 +34,7 @@ class Pipe extends SpriteComponent with HasGameRef<FlappyBirdGame> {
         sprite = Sprite(pipe);
         break;
     }
+
+    add(RectangleHitbox());
   }
 }
