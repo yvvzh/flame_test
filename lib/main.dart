@@ -1,3 +1,4 @@
+import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame_test/game/flappy_bird_game.dart';
 import 'package:flame_test/screens/game_over_screen.dart';
@@ -14,4 +15,6 @@ void main() {
       'gameOver': (context, _) => GameOverScreen(game: game),
     },
   ));
+  Flame.device.fullScreen();
+  Flame.device.setPortraitUpOnly();
 }

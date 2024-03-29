@@ -63,8 +63,8 @@ class Bird extends SpriteGroupComponent<BirdMovement>
 
   void gameOver() {
     gameRef.overlays.add('gameOver');
-    gameRef.pauseEngine();
     game.isHit = true;
+    gameRef.pauseEngine();
   }
 
   @override
