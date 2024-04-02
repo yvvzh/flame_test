@@ -48,12 +48,13 @@ class Bird extends SpriteGroupComponent<BirdMovement>
   }
 
   @override
-  void onCollisionStart(
-      Set<Vector2> intersectionPoints, PositionComponent other) {
-    super.onCollisionStart(intersectionPoints, other);
-    FlameAudio.play(Assets.collisionSFX);
-    debugPrint("Collision detected");
-    gameOver();
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    super.onCollision(intersectionPoints, other);
+    if (game.collisionsEnabled) {
+      FlameAudio.play(Assets.collisionSFX);
+      debugPrint("Collision detected");
+      gameOver();
+    }
   }
 
   void reset() {
@@ -62,8 +63,9 @@ class Bird extends SpriteGroupComponent<BirdMovement>
   }
 
   void gameOver() {
-    gameRef.overlays.add('gameOver');
+    game.collisionsEnabled = false;
     game.isHit = true;
+    gameRef.overlays.add('gameOver');
     gameRef.pauseEngine();
   }
 

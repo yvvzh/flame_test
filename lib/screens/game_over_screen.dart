@@ -42,7 +42,7 @@ class GameOverScreen extends StatelessWidget {
 
   void onRestart() {
     game.bird.reset();
-    game.overlays.remove('gameOver');
     game.resumeEngine();
+    game.overlays.remove('gameOver');
   }
 }
